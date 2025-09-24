@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WebGL Filters</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <main class="container">
+    <aside class="sidebar">
+      <header class="page-header">
+        <h1>WebGL Filters</h1>
+        <p class="subtitle" aria-live="polite">
+          Converts an image to the Wplace colorspace.
+        </p>
+      </header>
+
+      <section class="controls" aria-label="Controls">
+        <label class="control">
+          <span class="label">Image</span>
+          <input id="file" type="file" accept="image/*" />
+        </label>
+
+        <label class="control">
+          <span class="label">Filter</span>
+          <select id="mode">
+            <option value="default" selected>
+              Select a Filter..
+            </option>
+            <option value="invert">Invert</option>
+            <option value="colorspace">Color Space</option>
+          </select>
+          <section id="palette-view" class="controls pv-cols-6" data-palette aria-label="Palette">
+            <select id="mode">
+              <option value="default" selected>Select a Palette..</option>
+              <option value="Wplace">Wplace Palette</option>
+              <option value="Custom">Custom Palette</option>
+            </select>
+
+            <div class="label">Palette</div>
+            <div class="pv-grid" id="palette-grid"></div>
+          </section>
+
+        </label>
+
+        <button id="run" disabled>Run Shader</button>
+      </section>
+
+      <section id="status" class="status" aria-live="polite">
+        Upload an image to enable the shader.
+      </section>
+
+      <section id="log" class="log" aria-live="polite"></section>
+    </aside>
+
+    <section class="preview">
+      <div class="row">
+        <div class="col" id="original-col">
+          <h3>Original</h3>
+          <img id="original" alt="Original will appear here" />
+        </div>
+        <div class="col" id="processed-col">
+          <h3>Processed</h3>
+          <canvas id="glcanvas"></canvas>
+          <a id="download" class="hidden" download="shader-output.png">
+            Download Result
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+</body>
+
+
+</html>
