@@ -1,5 +1,5 @@
-import { Palette } from "../Palette"
 import { OnError } from "../HtmlElements";
+import { Palette } from "../Palette"
 
 // Create the texture from image bitmap
 export const createTextureFromBitmap = (bmp: ImageBitmap, gl: WebGL2RenderingContext, onError?: OnError): WebGLTexture => {

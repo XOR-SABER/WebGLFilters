@@ -1,5 +1,4 @@
 import { HTMLElements, OnError } from "./HtmlElements";
-import WplacePalette from "../src/Resources/WplacePalette.json"
 
 // I might as well define it in here.. for ease of use.. 
 export const defaultPalette = `{

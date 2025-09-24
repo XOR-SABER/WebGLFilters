@@ -1,5 +1,5 @@
-import { createPaletteTexture, createTextureFromBitmap } from "../GL/GLHelpers"
 import { createPalette, defaultPalette, Palette, renderPalette } from "../Palette";
+import { createPaletteTexture, createTextureFromBitmap } from "../GL/GLHelpers"
 import { GLShader, setupShaders, setupVAO } from "../GL/GLShader"
 import { HTMLElements, fetchDoc } from "../HtmlElements";
 
