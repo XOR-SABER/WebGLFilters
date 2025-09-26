@@ -26,7 +26,7 @@
 
         <label class="control">
           <span class="label">Filter</span>
-          <select id="mode">
+          <select id="filter-mode">
             <option value="default" selected>
               Select a Filter..
             </option>
@@ -34,13 +34,15 @@
             <option value="colorspace">Color Space</option>
           </select>
           <section id="palette-view" class="controls pv-cols-6" data-palette aria-label="Palette">
-            <select id="mode">
+            <select id="palette-selector">
               <option value="default" selected>Select a Palette..</option>
               <option value="Wplace">Wplace Palette</option>
               <option value="Custom">Custom Palette</option>
             </select>
-
-            <div class="label">Palette</div>
+            <label id="palette-file-upload" class="control">
+              <span class="label">Upload Palette</span>
+              <input id="palette-file" type="file" accept=".json,.txt,.hex,.ase,.gpl,.pal,.png" />
+            </label>
             <div class="pv-grid" id="palette-grid"></div>
           </section>
 

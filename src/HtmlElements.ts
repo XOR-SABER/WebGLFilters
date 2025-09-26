@@ -21,14 +21,17 @@ export class HTMLElements {
     public processedCol: HTMLElement = fetchDoc<HTMLElement>('#processed-col');
     public paletteGridElem: HTMLElement = fetchDoc<HTMLElement>("#palette-grid");
     public paletteViewElem: HTMLElement = fetchDoc<HTMLElement>('#palette-view');
+    public paletteUploadElem: HTMLElement = fetchDoc<HTMLElement>('#palette-file-upload');
 
     // HTMLSelectElements
-    public filterSelector: HTMLSelectElement = fetchDoc<HTMLSelectElement>('#mode');
+    public filterSelector: HTMLSelectElement = fetchDoc<HTMLSelectElement>('#filter-mode');
+    public paletteSelector: HTMLSelectElement = fetchDoc<HTMLSelectElement>('#palette-selector');
 
     // Toggles for visibility 
-    public toggleHiddenOriginalCol = (b: boolean) => (b) ? this.originalCol.classList.add("hidden") : this.originalCol.classList.remove("hidden")
-    public toggleHiddenProcessedCol = (b: boolean) => (b) ? this.processedCol.classList.add("hidden") : this.processedCol.classList.remove("hidden")
-    public toggleHiddenPaletteView = (b: boolean) => (b) ? this.paletteViewElem.classList.add("hidden") : this.paletteViewElem.classList.remove("hidden")
+    public toggleHiddenOriginalCol = (b: boolean) => (b) ? this.originalCol.classList.add("hidden") : this.originalCol.classList.remove("hidden");
+    public toggleHiddenPaletteView = (b: boolean) => (b) ? this.paletteViewElem.classList.add("hidden") : this.paletteViewElem.classList.remove("hidden");
+    public toggleHiddenProcessedCol = (b: boolean) => (b) ? this.processedCol.classList.add("hidden") : this.processedCol.classList.remove("hidden");
+    public toggleHiddenPaletteFileUpload = (b: boolean) => (b) ? this.paletteUploadElem.classList.add("hidden") : this.paletteUploadElem.classList.remove("hidden");
 
     // Setting status and log Error logs
     public setStatus = (m: string) => this.statusElem.textContent = m;
@@ -43,26 +46,29 @@ export class HTMLElements {
     // Singleton getInstance function
     public static getInstance(): HTMLElements {
         if (!this.instance) this.instance = new HTMLElements();
-        return this.instance
+        return this.instance;
     }
 
     // Instance of HTMLElements
     private static instance: HTMLElements;
-    
+
     // On page load.. hide the following.. 
     private constructor() {
         this.toggleHiddenOriginalCol(true);
         this.toggleHiddenPaletteView(true);
         this.toggleHiddenProcessedCol(true);
+        this.toggleHiddenPaletteFileUpload(true);
 
         // Default filter is none selected.. 
-        this.filterSelector.selectedIndex = 0
+        this.filterSelector.selectedIndex = 0;
+        // Ditto with palettes
+        this.paletteSelector.selectedIndex = 0;
     }
 }
 
 // Fetches from the document using the query selector
 export const fetchDoc = <Type>(selector: string): Type => {
-    return document.querySelector(selector) as Type
+    return document.querySelector(selector) as Type;
 }
 
 // Type for error callbacks.. 

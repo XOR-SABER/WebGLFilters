@@ -17,7 +17,13 @@ const application = () => {
     html.filterSelector.addEventListener('change', (event) => {
         const selection = event.target as HTMLSelectElement;
         manager.setShaderSelection(selection.selectedIndex - 1);
-    })
+    });
+
+    html.paletteSelector.addEventListener('change', (event) => {
+        const selection = event.target as HTMLSelectElement;
+        if (selection.value === "Custom") html.toggleHiddenPaletteFileUpload(false);
+        else html.toggleHiddenPaletteFileUpload(true);
+    });
 }
 
 // A way to load the main function when the DOM loads.. 
