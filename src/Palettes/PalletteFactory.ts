@@ -1,4 +1,4 @@
-import { HTMLElements } from "../HtmlElements";
+import { HTMLElements } from "../Application/HtmlElements";
 import { Palette, RGBA } from "./Palette";
 
 type Parser = (fileName: string, fileString: string) => Palette

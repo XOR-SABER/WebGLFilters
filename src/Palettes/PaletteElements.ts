@@ -1,4 +1,4 @@
-import { HTMLElements } from "../HtmlElements";
+import { HTMLElements } from "../Application/HtmlElements";
 import { Palette } from "./Palette";
 
 // Render the Palette to the HTML  

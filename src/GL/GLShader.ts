@@ -1,7 +1,7 @@
 import colorSpaceURL from "../Shaders/colorSpace.fs.glsl"
 import defaultVertURL from "../Shaders/default.vs.glsl"
 import invertFragURL from "../Shaders/invert.fs.glsl"
-import { OnError } from "../HtmlElements";
+import { OnError } from "../Application/HtmlElements";
 
 // Class for GLShaders.. really just a struct 
 export class GLShader {

@@ -1,4 +1,4 @@
-import { HTMLElements, fetchDoc } from "../HtmlElements"
+import { HTMLElements, fetchDoc } from "../Application/HtmlElements"
 
 function setupDOM() {
     document.body.innerHTML = `

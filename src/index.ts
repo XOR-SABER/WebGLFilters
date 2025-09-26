@@ -1,6 +1,8 @@
-import "./style.css";
 import { GLManagement } from "./GL/GLManagement";
-import { HTMLElements } from "./HtmlElements";
+import { HTMLElements } from "./Application/HtmlElements";
+import { FileHandler } from "./Application/FileHandler";
+
+import "./style.css";
 
 const application = () => {
     // Just get our singletons.. 
@@ -9,7 +11,10 @@ const application = () => {
     html.fileIO.addEventListener("change", async () => {
         html.toggleHiddenProcessedCol(true);
         const f = html.fileIO.files?.[0];
-        if (f) void manager.handleFileIO(f); // fire-and-forget
+        if (f) {
+            const result = await FileHandler.readImage(f, html);
+            manager.setImageProperties(result);
+        }
     });
 
     html.runBtn.addEventListener("click", () => manager.runProg());

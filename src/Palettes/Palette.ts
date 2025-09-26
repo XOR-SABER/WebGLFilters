@@ -1,4 +1,4 @@
-import { OnError } from "../HtmlElements";
+import { OnError } from "../Application/HtmlElements";
 
 // I might as well define it in here.. for ease of use.. 
 export const defaultPalette = `{

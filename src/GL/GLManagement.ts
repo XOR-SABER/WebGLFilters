@@ -2,13 +2,14 @@ import { createPaletteTexture, createTextureFromBitmap } from "../GL/GLHelpers"
 import { createPalette, defaultPalette, Palette } from "../Palettes/Palette";
 import { renderPalette, clearPalette } from "../Palettes/PaletteElements";
 import { GLShader, setupShaders, setupVAO } from "../GL/GLShader"
-import { HTMLElements, fetchDoc } from "../HtmlElements";
+import { HTMLElements, fetchDoc } from "../Application/HtmlElements";
+import { ImageFileResult, TextFileResult } from "../Application/FileHandler";
 
 // Singleton manager class for the GLcanvas
 export class GLManagement {
     // Member variables
 
-    // public
+    // Public
     public canvas: HTMLCanvasElement = fetchDoc<HTMLCanvasElement>('#glcanvas') as HTMLCanvasElement;
     public gl: WebGL2RenderingContext = this.canvas.getContext('webgl2') as WebGL2RenderingContext;
     public imageBitmap: ImageBitmap | null = null;
@@ -73,42 +74,17 @@ export class GLManagement {
         }
     }
 
-    public handleFileIO(file: File): Promise<ImageBitmap> {
-        const html = this.html
-        return new Promise((resolve, reject) => {
-            html.logError('');
-            html.setStatus('Loading image..');
-
-            createImageBitmap(file, { imageOrientation: "from-image" })
-                .then((bmp) => {
-                    this.imageBitmap = bmp;
-
-                    // Preview the original file
-                    html.orgImgElem.src = URL.createObjectURL(file);
-
-                    // Resize canvas
-                    this.canvas.width = bmp.width;
-                    this.canvas.height = bmp.height;
-
-                    // Enable run button
-                    html.runBtn.disabled = false;
-                    html.setStatus(
-                        `Image loaded: ${bmp.width}x${bmp.height}. Click "Run Shader".`
-                    );
-
-                    html.toggleHiddenOriginalCol(false);
-                    resolve(bmp);
-                })
-                .catch((e) => {
-                    this.imageBitmap = null;
-                    html.runBtn.disabled = true;
-                    html.ErrorCallBack("@ handleFileIO :\n" + e);
-                    reject(e);
-                });
-        });
+    public setImageProperties(result: ImageFileResult): void {
+        this.imageBitmap = result.imageBitMap;
+        this.canvas.width = result.width;
+        this.canvas.height = result.height;
     }
 
-    public setShaderSelection(idx: number) {
+    public updatePalette(result: TextFileResult): void {
+        // TODO: 
+    }
+
+    public setShaderSelection(idx: number): void {
         const html = this.html;
         if (idx < 0) {
             html.setStatus("Please Select a filter to use")
@@ -121,11 +97,13 @@ export class GLManagement {
         this.shaderSelect = idx;
     }
 
-    // private
+    // Private
     private shaderSelect: number = -1;
     private selectedPalette: Palette | null = null;
     private static instance: GLManagement;
     private html: HTMLElements = HTMLElements.getInstance() as HTMLElements;
+
+    // Methods
     public static getInstance(): GLManagement {
         if (!GLManagement.instance) GLManagement.instance = new GLManagement();
         return GLManagement.instance;

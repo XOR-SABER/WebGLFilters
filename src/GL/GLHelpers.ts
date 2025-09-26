@@ -1,4 +1,4 @@
-import { OnError } from "../HtmlElements";
+import { OnError } from "../Application/HtmlElements";
 import { Palette } from "../Palettes/Palette"
 
 // Create the texture from image bitmap
