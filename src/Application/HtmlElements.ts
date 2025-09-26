@@ -3,6 +3,7 @@
 export class HTMLElements {
     // HTMLInputElements
     public fileIO: HTMLInputElement = fetchDoc<HTMLInputElement>('#file');
+    public paletteFileIO: HTMLInputElement = fetchDoc<HTMLInputElement>('#palette-file');
 
     // HTMLButtonElement
     public runBtn: HTMLButtonElement = fetchDoc<HTMLButtonElement>('#run');

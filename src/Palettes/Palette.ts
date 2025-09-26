@@ -80,13 +80,30 @@ export interface Palette {
     buffer: Uint8Array;
     size: number;
 }
-
+// Remove In time
 export interface PaletteEntry {
     name: string
     rgba: RGBA;
 }
+// From here 
+
+// The empty palette for returning empties
+export const EmptyPalette: Palette = {
+    name: "",
+    names: [],
+    rgba: [],
+    buffer: new Uint8Array([]),
+    size: 0
+};
+
+// Checking for empties
+export const CheckEmptyPalette = (p: Palette): boolean =>
+    p.name === "" && p.names.length === 0 && p.rgba.length === 0 &&
+    p.buffer.length === 0 && p.size === 0;
+
 // Helper function to make things a bit easier
 
+// Remove In time
 // Checks if the value is a Uint8
 const isUint8 = (v: unknown): v is number =>
     Number.isInteger(v) && (v as number) >= 0 && (v as number) <= 255;
@@ -140,3 +157,5 @@ const validatePaletteJSON = (jsonString: string, onError?: OnError): any => {
     // Raw is okay 
     return raw;
 }
+
+// The empty palette for returning empties

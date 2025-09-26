@@ -8,14 +8,22 @@ const application = () => {
     // Just get our singletons.. 
     const manager = GLManagement.getInstance();
     const html = HTMLElements.getInstance();
+    // File IO stuff
     html.fileIO.addEventListener("change", async () => {
         html.toggleHiddenProcessedCol(true);
         const f = html.fileIO.files?.[0];
-        if (f) {
-            const result = await FileHandler.readImage(f, html);
-            manager.setImageProperties(result);
-        }
+        if (!f) return;
+        const result = await FileHandler.readImage(f, html);
+        manager.setImageProperties(result);
     });
+
+    html.paletteFileIO.addEventListener("change", async () => {
+        const f = html.paletteFileIO.files?.[0];
+        if (!f) return;
+        const result = await FileHandler.readFile(f, html);
+
+        console.log(result);
+    })
 
     html.runBtn.addEventListener("click", () => manager.runProg());
 
