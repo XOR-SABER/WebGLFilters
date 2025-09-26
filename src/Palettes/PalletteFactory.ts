@@ -34,16 +34,16 @@ export class PaletteFactory {
         }
 
         // Validate JSON
-        if (typeof raw !== "object" || raw === null) 
+        if (typeof raw !== "object" || raw === null)
             html.ErrorCallBack("@JSONParser : JSON must be an object with paletteName and entries");
         if (!raw.paletteName) tmpName = fileName;
-        if (raw.paletteName && typeof raw.paletteName !== "string") 
+        if (raw.paletteName && typeof raw.paletteName !== "string")
             html.ErrorCallBack("@JSONParser : paletteName must be a string");
-        if (!raw.entries) 
+        if (!raw.entries)
             html.ErrorCallBack("@JSONParser : Palette must have entries");
-        if (!Array.isArray(raw.entries)) 
+        if (!Array.isArray(raw.entries))
             html.ErrorCallBack("@JSONParser : entries must be an array");
-        if (raw.entries.length === 0) 
+        if (raw.entries.length === 0)
             html.ErrorCallBack("@JSONParser : entries array is empty");
 
         // Build the Palette
@@ -85,9 +85,10 @@ export class PaletteFactory {
             size: 0
         };
     }
-
+    
     private HEXParser: Parser = (fileName: string, fileString: string) => {
         const html: HTMLElements = this.html;
+        const raw: string = fileString;
         // TODO:
         return {
             name: "",
@@ -100,6 +101,7 @@ export class PaletteFactory {
 
     private IMGParser: Parser = (fileName: string, fileString: string) => {
         const html: HTMLElements = this.html;
+        const raw: string = fileString;
         // TODO: 
         return {
             name: "",
@@ -113,7 +115,7 @@ export class PaletteFactory {
     private PaintParser: Parser = (fileName: string, fileString: string) => {
         const html: HTMLElements = this.html;
         const raw: string = fileString;
-        
+
         return {
             name: "",
             names: [],
@@ -125,6 +127,7 @@ export class PaletteFactory {
 
     private GPLParser: Parser = (fileName: string, fileString: string) => {
         const html: HTMLElements = this.html;
+        const raw: string = fileString;
         // TODO: 
         return {
             name: "",
@@ -137,6 +140,7 @@ export class PaletteFactory {
 
     private JASCParser: Parser = (fileName: string, fileString: string) => {
         const html: HTMLElements = this.html;
+        const raw: string = fileString;
         // TODO: 
         return {
             name: "",
