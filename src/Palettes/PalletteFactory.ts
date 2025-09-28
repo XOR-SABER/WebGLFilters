@@ -1,5 +1,5 @@
 import { ImageFileResult, TextFileResult } from "../Application/FileHandler";
-import { FileResult, isImageFileResult, PaletteParsers } from "./PaletteParsers";
+import { FileResult, isImageFileResult, PaletteParsers, Parser } from "./PaletteParsers";
 import { HTMLElements } from "../Application/HtmlElements";
 import { EmptyPalette, Palette} from "./Palette";
 
@@ -19,15 +19,14 @@ export class PaletteFactory {
             ? res.fileName.split(".").pop()!.toLowerCase()
             : "";
 
-        const parser = this.parsers.getParser(extension);
-        if (parser == undefined) {
-            
-
-        }
-
-
-        // Just return a empty palette
-        return EmptyPalette;
+        let tmp: Parser | undefined = this.parsers.getParser(extension);
+        if (tmp == undefined) 
+            html.ErrorCallBack(`@PaletteFactory : We don't have a parser for this extension '${extension}'..`)
+        
+        const parser: Parser = tmp as Parser;
+        
+        // Call it
+        return parser(result, html);
     }
 };
 

@@ -1,13 +1,16 @@
-import { GLManagement } from "./GL/GLManagement";
+import { PaletteFactory } from "./Palettes/PalletteFactory";
 import { HTMLElements } from "./Application/HtmlElements";
 import { FileHandler } from "./Application/FileHandler";
+import { GLManagement } from "./GL/GLManagement";
 
 import "./style.css";
+
 
 const application = () => {
     // Just get our singletons.. 
     const manager = GLManagement.getInstance();
     const html = HTMLElements.getInstance();
+    const paletteFactory = new PaletteFactory(); 
     // File IO stuff
     html.fileIO.addEventListener("change", async () => {
         html.toggleHiddenProcessedCol(true);
@@ -15,14 +18,17 @@ const application = () => {
         if (!f) return;
         const result = await FileHandler.readImage(f, html);
         manager.setImageProperties(result);
+
     });
 
     html.paletteFileIO.addEventListener("change", async () => {
         const f = html.paletteFileIO.files?.[0];
         if (!f) return;
         const result = await FileHandler.readFile(f, html);
-
         console.log(result);
+
+        const palette = paletteFactory.CreatePalette(result, html);
+        console.log(palette);
     })
 
     html.runBtn.addEventListener("click", () => manager.runProg());
