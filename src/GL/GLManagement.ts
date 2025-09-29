@@ -1,9 +1,10 @@
 import { createPaletteTexture, createTextureFromBitmap } from "../GL/GLHelpers"
-import { createPalette, defaultPalette, Palette } from "../Palettes/Palette";
-import { renderPalette, clearPalette } from "../Palettes/PaletteElements";
+import { defaultPalette, Palette } from "../Palettes/Palette";
+import { clearPalette, renderPalette } from "../Palettes/PaletteElements";
 import { GLShader, setupShaders, setupVAO } from "../GL/GLShader"
 import { HTMLElements, fetchDoc } from "../Application/HtmlElements";
-import { ImageFileResult, TextFileResult } from "../Application/FileHandler";
+import { ImageFileResult } from "../Application/FileHandler";
+import { PaletteFactory } from "../Palettes/PalletteFactory";
 
 // Singleton manager class for the GLcanvas
 export class GLManagement {
@@ -34,17 +35,25 @@ export class GLManagement {
         try {
             if (!shader || !shader.uniforms) throw new Error("Program not initialized");
             const tex = createTextureFromBitmap(this.imageBitmap, gl, this.html.ErrorCallBack);
+            let selectedPalette = this.programPalettes[this.paletteIdx];
+            console.log(this.programPalettes[this.paletteIdx]);
+            console.log(this.paletteIdx)
+            console.log(this.programPalettes)
+            if (selectedPalette == undefined && shaderSelect == 1) {
+                html.setStatus("Please select a palette");
+                return;
+            }
             let palette: WebGLTexture | null = null;
 
             gl.useProgram(shader.program);
             gl.bindVertexArray(shader.vao);
 
-            if (this.selectedPalette) {
-                palette = createPaletteTexture(this.selectedPalette as Palette, gl, this.html.ErrorCallBack);
+            if (selectedPalette) {
+                palette = createPaletteTexture(selectedPalette as Palette, gl, this.html.ErrorCallBack);
                 gl.activeTexture(gl.TEXTURE1)
                 gl.bindTexture(gl.TEXTURE_2D, palette);
                 if (shader.uniforms["u_palette"]) gl.uniform1i(shader.uniforms["u_palette"], 1);
-                if (shader.uniforms["u_paletteSize"]) gl.uniform1i(shader.uniforms["u_paletteSize"], this.selectedPalette.size);
+                if (shader.uniforms["u_paletteSize"]) gl.uniform1i(shader.uniforms["u_paletteSize"], selectedPalette.size);
             }
 
             gl.activeTexture(gl.TEXTURE0);
@@ -68,7 +77,7 @@ export class GLManagement {
             html.setStatus("Done! Shader result shown. Download available.");
             html.toggleHiddenProcessedCol(false);
             gl.deleteTexture(tex);
-            if (this.selectedPalette) gl.deleteTexture(palette)
+            if (selectedPalette) gl.deleteTexture(palette)
         } catch (e) {
             html.ErrorCallBack("@ runProg : \n" + e);
         }
@@ -80,8 +89,9 @@ export class GLManagement {
         this.canvas.height = result.height;
     }
 
-    public updatePalette(result: TextFileResult): void {
-        // TODO: 
+    public addPalette(result: Palette): void {
+        this.programPalettes[1] = (result);
+        renderPalette(this.programPalettes[this.paletteIdx], this.html)
     }
 
     public setShaderSelection(idx: number): void {
@@ -89,19 +99,32 @@ export class GLManagement {
         if (idx < 0) {
             html.setStatus("Please Select a filter to use")
         }
-        if (idx == 1 && this.selectedPalette) {
+        if (idx == 1 && this.programPalettes) {
             html.toggleHiddenPaletteView(false);
-            renderPalette(this.selectedPalette as Palette, this.html)
+            // renderPalette(this.selectedPalette as Palette, this.html)
         } else html.toggleHiddenPaletteView(true);
 
         this.shaderSelect = idx;
     }
 
+    public setPalette(idx: number): void {
+        const html = this.html;
+        this.paletteIdx = idx;
+        clearPalette(html);
+        if (this.programPalettes[this.paletteIdx] == undefined) {
+            html.setStatus("Please upload a palette");
+            return;
+        }
+        renderPalette(this.programPalettes[this.paletteIdx], this.html)
+    }
+
     // Private
     private shaderSelect: number = -1;
-    private selectedPalette: Palette | null = null;
+    private programPalettes: Palette[] = [];
+    private paletteIdx: number = -1;
     private static instance: GLManagement;
     private html: HTMLElements = HTMLElements.getInstance() as HTMLElements;
+    private paletteFactory: PaletteFactory = new PaletteFactory();
 
     // Methods
     public static getInstance(): GLManagement {
@@ -113,14 +136,14 @@ export class GLManagement {
     private constructor() {
         const gl = this.gl;
         const html = this.html;
+        const f = this.paletteFactory;
 
         if (!gl) {
             html.setStatus('WebGL is not supported in this browser, this app will not work. Please use a browser that allows WebGL');
             html.runBtn.disabled = true;
         }
-
-        this.selectedPalette = createPalette(defaultPalette, html.ErrorCallBack);
-
+        const p = f.CreateDefaultPalette(defaultPalette, html);
+        this.programPalettes.push(p);
         this.shaderProgs = setupShaders(gl, html.ErrorCallBack);
 
         // quad buffer

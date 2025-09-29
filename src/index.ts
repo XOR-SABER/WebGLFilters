@@ -28,7 +28,7 @@ const application = () => {
         console.log(result);
 
         const palette = paletteFactory.CreatePalette(result, html);
-        console.log(palette);
+        manager.addPalette(palette);
     })
 
     html.runBtn.addEventListener("click", () => manager.runProg());
@@ -40,8 +40,12 @@ const application = () => {
 
     html.paletteSelector.addEventListener('change', (event) => {
         const selection = event.target as HTMLSelectElement;
-        if (selection.value === "Custom") html.toggleHiddenPaletteFileUpload(false);
+        if (selection.value === "Custom") {
+            html.toggleHiddenPaletteFileUpload(false);
+        }
         else html.toggleHiddenPaletteFileUpload(true);
+        console.log(selection.selectedIndex - 1);
+        manager.setPalette(selection.selectedIndex - 1);
     });
 }
 

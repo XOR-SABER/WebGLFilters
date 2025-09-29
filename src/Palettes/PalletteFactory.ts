@@ -28,5 +28,10 @@ export class PaletteFactory {
         // Call it
         return parser(result, html);
     }
+
+    public CreateDefaultPalette(str: string, html:HTMLElements): Palette {
+        let res : TextFileResult = {fileName: "Default", fileString: str} 
+        return (this.parsers.getParser("json") as Parser)(res, html);
+    }
 };
 

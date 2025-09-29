@@ -19,7 +19,7 @@ export const renderPalette = (palette: Palette, HTML: HTMLElements) => {
     grid.className = "pv-grid";
     HTML.paletteGridElem.appendChild(grid);
 
-    for (let i = 0; i < palette.names.length; i++) {
+    for (let i = 0; i < palette.rgba.length; i++) {
         const name = palette.names[i];
         const [r, g, b, a] = palette.rgba[i];
 
@@ -40,13 +40,20 @@ export const renderPalette = (palette: Palette, HTML: HTMLElements) => {
 };
 
 // Clear the Palette
+// Clear just the palette items (not the entire container)
 export const clearPalette = (HTML: HTMLElements) => {
     if (!HTML.paletteGridElem) {
         HTML.ErrorCallBack("@ clearPalette: #palette-grid not found in DOM");
         return;
     }
-    HTML.paletteGridElem.innerHTML = "";
-    HTML.paletteGridElem.removeAttribute("data-palette");
 
-    HTML.toggleHiddenPaletteView(true);
+    const grid = HTML.paletteGridElem.querySelector(".pv-grid");
+    if (grid) {
+        grid.innerHTML = ""; // clear only the swatches
+    }
+
+    const title = HTML.paletteGridElem.querySelector(".pv-title");
+    if (title) {
+        title.textContent = "";
+    }
 };
