@@ -80,7 +80,7 @@ const compileShader = (src: string, type: number, gl: WebGL2RenderingContext, on
 export const setupVAO = (gl: WebGL2RenderingContext, prog: GLShader, quadBuffer: WebGLBuffer, onError?: OnError): void => {
   const vao = gl.createVertexArray();
   if (!vao) {
-    onError && onError("@ setupVAO : failed to create VAO");
+    onError?.("@ setupVAO : failed to create VAO");
     return;
   }
 
@@ -89,7 +89,7 @@ export const setupVAO = (gl: WebGL2RenderingContext, prog: GLShader, quadBuffer:
 
   const posLoc = prog.attributes["a_position"] as number;
   if (posLoc === undefined || posLoc === -1) {
-    onError && onError("@ getAttrib : attribute a_position not found or optimized out");
+    onError?.("@ getAttrib : attribute a_position not found or optimized out");
   } else {
     gl.bindBuffer(gl.ARRAY_BUFFER, quadBuffer);
     gl.enableVertexAttribArray(posLoc);

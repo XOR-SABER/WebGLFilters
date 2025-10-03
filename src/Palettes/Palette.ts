@@ -1,5 +1,3 @@
-import { OnError } from "../Application/HtmlElements";
-
 // I might as well define it in here.. for ease of use.. 
 export const defaultPalette = `{
 "paletteName": "Wplace Palette",
@@ -79,13 +77,8 @@ export interface Palette {
     rgba: RGBA[];
     buffer: Uint8Array;
     size: number;
+    paletteSlot?: number;
 }
-// Remove In time
-export interface PaletteEntry {
-    name: string
-    rgba: RGBA;
-}
-// From here 
 
 // The empty palette for returning empties
 export const EmptyPalette: Palette = {
@@ -93,7 +86,7 @@ export const EmptyPalette: Palette = {
     names: [],
     rgba: [],
     buffer: new Uint8Array([]),
-    size: 0
+    size: 0,
 };
 
 // Checking for empties
