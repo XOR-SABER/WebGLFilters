@@ -11,7 +11,8 @@ module.exports = (env, argv) => {
         output: {
             filename: isDev ? "bundle.js" : "bundle.[contenthash].js",
             path: path.resolve(__dirname, "dist"),
-            clean: true
+            clean: true,
+            publicPath: "/WebGLFilters/"
         },
         devtool: isDev ? "inline-source-map" : "source-map",
         resolve: {
